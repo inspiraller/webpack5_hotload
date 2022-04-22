@@ -51,7 +51,6 @@ const App:FC<Props> = () => {
     }
   }, [pathname]);
 
-  console.log('Router', {routes})
   return (
     <Router>
       <Routes>

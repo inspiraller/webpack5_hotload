@@ -1,56 +1,59 @@
-const webpack = require('webpack')
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const sass = require('sass')
+const webpack = require("webpack");
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
-const contentBase = path.resolve(__dirname, './public')
-const prodBuild = path.resolve(__dirname, './dist')
+const sass = require("sass");
 
-const port = 3001
-const startFile = 'index.tsx'
+const contentBase = path.resolve(__dirname, "./public");
+const prodBuild = path.resolve(__dirname, "./dist");
 
-const isDevelopment = process.env.NODE_ENV !== 'production'
+const port = 3001;
+const startFile = "index.tsx";
 
+const isDevelopment = process.env.NODE_ENV !== "production";
 
-const src = path.join(__dirname, '/src');
+const src = path.join(__dirname, "/src");
 
 const config = {
   entry: {
+    reactRefreshSetup:
+      "@pmmmwh/react-refresh-webpack-plugin/client/ReactRefreshEntry.js",
     app: path.resolve(__dirname, `./src/${startFile}`),
-    // hot: 'webpack/hot/dev-server.js'
   },
   output: {
     path: prodBuild,
-    filename: '[name].bundle.js'
+    filename: "[name].bundle.js",
   },
-  mode: 'development',
+  mode: "development",
   module: {
     rules: [
       {
-        test: /\.js$/,
-        include: /node_modules\/react-dom/,
-        use: ['react-hot-loader/webpack'],
-      },
-      {
         test: /\.[tj]sx?$/,
-        use: ['babel-loader'],
+        use: ["babel-loader"],
         exclude: /node_modules/,
+
+        // https://javascript.plainenglish.io/react-fast-refresh-the-new-react-hot-reloader-652c6645548c
+        // don't need if declared in babel itself
+        // options: {
+        //   plugins: ['react-refresh/babel'],
+        // },
       },
 
       {
         test: /\.module\.(s[ac]|c)ss$/,
         use: [
-          isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+          isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
               modules: true,
               sourceMap: isDevelopment,
             },
           },
           {
-            loader: 'sass-loader',
+            loader: "sass-loader",
             options: {
               sourceMap: isDevelopment,
               // https://www.npmjs.com/package/sass-loader
@@ -68,10 +71,10 @@ const config = {
         test: /\.(s[ac]|c)ss$/,
         exclude: /\.module\.(s[ac]|c)ss$/,
         use: [
-          isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
+          isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
+          "css-loader",
           {
-            loader: 'sass-loader',
+            loader: "sass-loader",
             options: {
               sourceMap: isDevelopment,
             },
@@ -82,7 +85,7 @@ const config = {
         test: /\.(png|jpe?g|gif|svg)$/,
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
           },
         ],
       },
@@ -90,23 +93,23 @@ const config = {
   },
 
   resolve: {
-    extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.scss', '.css'],
-    modules: [src, 'node_modules'],
+    extensions: ["*", ".js", ".jsx", ".ts", ".tsx", ".scss", ".css"],
+    modules: [src, "node_modules"],
     alias: {
-      src
-    }
+      src,
+    },
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    new ReactRefreshPlugin(),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'public', 'index.html'),
-      favicon: './public/favicon.ico',
-      filename: 'index.html',
-      manifest: './public/manifest.json',
+      template: path.resolve(__dirname, "public", "index.html"),
+      favicon: "./public/favicon.ico",
+      filename: "index.html",
+      manifest: "./public/manifest.json",
     }),
     new MiniCssExtractPlugin({
-      filename: isDevelopment ? '[name].css' : '[name].[hash].css',
-      chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css',
+      filename: isDevelopment ? "[name].css" : "[name].[hash].css",
+      chunkFilename: isDevelopment ? "[id].css" : "[id].[hash].css",
     }),
   ],
 
@@ -116,9 +119,9 @@ const config = {
     historyApiFallback: true,
     hot: true,
   },
-}
+};
 
 const fnConfig = (globalConfig) => ({
   ...config,
-})
-module.exports = fnConfig
+});
+module.exports = fnConfig;
