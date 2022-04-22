@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "module": "commonjs",
+    "lib": ["es2018", "es2015", "es5", "es6", "dom", "esnext.asynciterable"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "plugins": [{"name": "typescript-tslint-plugin"}],
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "jsx": "react",
+    "pretty": true,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "paths": {
+      "src/*": ["src/*"]
+    },
+    "watch": true,
+    "strict": true,
+    "allowJs": true // problem with visual studio code import module resolutions if file does not sit inside src/
+  },
+  "include": ["src/*","src/**/*"],
+  "exclude": ["./node_modules"]
+}

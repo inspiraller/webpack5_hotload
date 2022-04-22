@@ -1,0 +1,28 @@
+{
+  "root": true,
+  "parser": "@babel/eslint-parser",
+  "plugins": ["react", "prettier"],
+  "extends": [
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true,
+      "impliedStrict": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "prettier/prettier": ["error", {"singleQuote": true}],
+    "import/no-unresolved": 0
+  }
+}
